@@ -8,21 +8,17 @@
     };
   };
   jobs = {
+    "/helloCpp" = makeScript {
+      name = "helloCpp";
+      entrypoint = ''
+        g++ -o main ${./cpp/main.cpp}
+        ./main
+      '';
+      searchPaths.bin = [ inputs.nixpkgs.gcc ];
+    };
     "/helloUser" = makeScript {
       name = "helloUser";
       entrypoint = "echo 'Hello ${inputs.myUser}!'";
     };
-    "/myDerivation" = makeDerivation {
-    env.envVersion = "1.0";
-    builder = ''
-      debug Version is $envVersion
-      info Running tree command on $PWD
-      mkdir dir
-      touch dir/file
-      tree dir > $out
-    '';
-    name = "myDerivation";
-    searchPaths.bin = [ inputs.nixpkgs.tree ];
-  };
   };
 }
